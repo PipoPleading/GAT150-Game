@@ -1,75 +1,71 @@
 #pragma once
+#include "Object.h"
 #include "Core/Core.h"
 #include "Renderer/Model.h"
+#include "Components/Components.h"
 #include "Audio/AudioSystem.h"
 #include "Input/InputSystem.h"
 #include <memory>
 
 namespace kiko
 {
-	class Actor
+	class Actor : public Object
 	{
 	public:
-		Actor() = default; // This automatically exists without typing
+		CLASS_DECLARATION(Actor)
 
-		Actor(const kiko::Transform& transform, std::shared_ptr<Model> model) :
-			m_transform{ transform },
-			m_model{ model }
-		{}
-		Actor(const kiko::Transform& transform, std::shared_ptr<Model> model, std::shared_ptr<Model> bulletModel) :
-			m_transform{ transform },
-			m_model{ model },
-			m_bulletModel{ bulletModel }
-		{}
+		Actor() = default; // This automatically exists without typing
 		Actor(const kiko::Transform& transform) :
-			m_transform{ transform }
+			transform{ transform }
 		{}
+		Actor(const Actor& other);
+
+		virtual bool Initialize() override;
+		virtual void OnDestroy() override;
 
 		virtual void Update(float dt);
 		virtual void Draw(kiko::Renderer& renderer);
 		//virtual void Draw(kiko::Renderer& renderer);
+
+		void AddComponent(std::unique_ptr<Component> component);
+		template<typename T>
+		T* GetComponent();
 	
-		float GetRadius() { return (m_model) ? m_model->GetRadius() * m_transform.scale : 0; }
+		float GetRadius() { return 30.0f; }//(m_model) ? m_model->GetRadius() * m_transform.scale : 0;
 		virtual void OnCollision(Actor* other) {}
 
-		void AddForce(const vec2& force) { m_velocty += force; }
-		void SetDamping(float damping) { m_damping = damping; } //lerp 
+		//void AddForce(const vec2& force) { m_velocty += force; }
+		//void SetDamping(float damping) { m_damping = damping; } //lerp 
 
 		class Scene* m_scene = nullptr; //temporary public; this sucks also 
 		friend class Scene;
 
 		class Game* m_game = nullptr;
 		
-		Transform m_transform;
-		std::string m_tag;
+		kiko::Transform transform;
+		std::string tag;
 
-		float m_lifespan = -1.0f;
-
-		//virtual void Particles(float spawnRate,
-		//	bool burst,
-		//	size_t burstCount,
-		//	float spawnRateTimer,
-		//	float angle,
-		//	float angleRange,
-		//	// particle parameters
-		//	float lifetimeMin,
-		//	float lifetimeMax,
-		//	float speedMin,
-		//	float speedMax,
-		//	float damping,
-		//	float red,
-		//	float green,
-		//	float blue,
-		//	float alpha
-		//);
+		float lifespan = -1.0f;
+		bool m_destroyed = false;
+		bool persistent = false;
+		bool prototype = false;
 
 	protected:
-		bool m_destroyed = false;
-		std::shared_ptr<Model> m_model;
-		std::shared_ptr<Model> m_bulletModel;
+		std::vector<std::unique_ptr<Component>> components;
 
-		vec2 m_velocty;
-		float m_damping = 0;
+
 	};
+
+	template<typename T>
+	inline T* Actor::GetComponent()
+	{
+		for (auto& actor : components) 
+		{
+			T* result = dynamic_cast<T*>(actor.get()); //dynamic cast casts to a provided type, such as T*
+			if (result) return result; //needs to point to something
+		}
+
+		return nullptr;
+	}
 
 }

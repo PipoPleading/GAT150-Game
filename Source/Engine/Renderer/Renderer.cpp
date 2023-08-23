@@ -1,13 +1,17 @@
 #include "Renderer.h"
 #include "SDL2-2.28.0/include/SDL_ttf.h"
+#include "SDL2-2.28.0/include/SDL_image.h"
+#include "Texture.h"
 
 namespace kiko
 {
+
 	Renderer g_renderer;
 
 	bool Renderer::Initialize()
 	{
 		SDL_Init(SDL_INIT_VIDEO);
+		IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
 		TTF_Init();
 
 		return true;
@@ -18,8 +22,9 @@ namespace kiko
 		SDL_DestroyRenderer(m_renderer);
 		SDL_DestroyWindow(m_window);
 		TTF_Quit();
+		IMG_Quit();
 	}
-	
+
 	void Renderer::CreateWindow(const std::string& title, int width, int height)
 	{
 		m_width = width;
@@ -29,12 +34,12 @@ namespace kiko
 		m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
 
 	}
-	
+
 	void Renderer::BeginFrame()
 	{
 		SDL_RenderClear(m_renderer);
 	}
-	
+
 	void Renderer::EndFrame()
 	{
 		SDL_RenderPresent(m_renderer);
@@ -63,5 +68,36 @@ namespace kiko
 	void Renderer::DrawPoint(float x, float y)
 	{
 		SDL_RenderDrawPoint(m_renderer, (int)x, (int)y);
+	}
+
+	void Renderer::DrawTexture(Texture* texture, float x, float y, float angle)
+	{
+		vec2 size = texture->GetSize();
+		SDL_Rect dest;
+		dest.x = (int)(x - (size.x * 0.5f));
+		dest.y = (int)(y - (size.y * 0.5f));
+		dest.w = size.x;//might need to be casted, might not
+		dest.h = size.y;
+
+
+		SDL_RenderCopyEx(this->m_renderer, texture->m_texture, nullptr, &dest, angle, nullptr, SDL_FLIP_NONE);
+
+	}
+
+	void Renderer::DrawTexture(Texture* texture, const Transform& transform)
+	{
+		mat3 mx = transform.GetMatrix();
+
+		vec2 position = mx.GetTranslation();
+		vec2 size = texture->GetSize() * mx.GetScale();
+
+		SDL_Rect dest;
+		dest.x = (int)(position.x - (size.x * 0.5f));
+		dest.y = (int)(position.y - (size.y * 0.5f));
+		dest.w = size.x;//might need to be casted, might not
+		dest.h = size.y;
+
+
+		SDL_RenderCopyEx(this->m_renderer, texture->m_texture, nullptr, &dest, RadiansToDegrees(mx.GetRotation()), nullptr, SDL_FLIP_NONE);
 	}
 }

@@ -5,8 +5,8 @@
 class PowerUp : public kiko::Actor
 {
 public:
-	PowerUp(float speed, const kiko::Transform& transform, std::shared_ptr<kiko::Model> model) :
-		Actor{ transform, model },
+	PowerUp(float speed, const kiko::Transform& transform) :
+		Actor{ transform},
 		m_speed{ speed }
 	{}
 

@@ -1,52 +1,108 @@
 #include "Actor.h"
+#include "Components/RenderComponents.h"
 
 namespace kiko
 {
-	void Actor::Update(float dt)
+	CLASS_DEFINITION(Actor)
+
+	Actor::Actor(const Actor& other)
 	{
-		if (m_lifespan != -1.0f)
+		name = other.name;
+		tag = other.lifespan;
+		lifespan = other.lifespan;
+		transform = other.transform;
+		m_scene = other.m_scene;
+		m_game = other.m_game;
+
+		for (auto& component : other.components)
 		{
-			m_lifespan -= dt;
-			m_destroyed = (m_lifespan <= 0);
+			auto cloneComponent = std::unique_ptr<Component>(dynamic_cast<Component*>(component->Clone().release()));
+			AddComponent(std::move(cloneComponent));
+
 		}
 
-		m_transform.position += m_velocty * dt;
-		m_velocty *= std::pow(1.0f - m_damping, dt);
 	}
+
+	bool Actor::Initialize()
+	{
+		for (auto& component : components)
+		{
+			component->Initialize();
+		}
+
+		return true;
+	}
+
+	void Actor::OnDestroy()
+	{
+		for (auto& component : components)
+		{
+			component->OnDestroy();
+		}
+
+	}
+	
+	void Actor::Update(float dt)
+	{
+		if (lifespan != -1.0f)
+		{
+			lifespan -= dt;
+			m_destroyed = (lifespan <= 0);
+		}
+
+		for (auto& component : components)
+		{
+			component->Update(dt);
+		}
+	}
+
 	void Actor::Draw(kiko::Renderer& renderer)
 	{
-		m_model->Draw(renderer, m_transform);
+		//m_model->Draw(renderer, m_transform);
+		for (auto& component : components)
+		{
+			RenderComponent* renderComponent = dynamic_cast<RenderComponent*>(component.get());
+			if (renderComponent)
+			{
+				renderComponent->Draw(renderer);
+			}
+		}
 	}
 
-	//void Actor::Particles(float spawnRate, bool burst, size_t burstCount, float spawnRateTimer,
-	//	float angle, float angleRange, float lifetimeMin, float lifetimeMax,
-	//	float speedMin, float speedMax, float damping,
-	//	float red,float green,float blue,
-	//	float alpha)
-	//{
-	//	data.spawnRate = spawnRate;
-	//	data.burst = burst;
-	//	data.burstCount = burstCount;
-	//	data.angle = angle;
-	//	data.angleRange = angleRange; //pi, two pi, or half pi
-	//	data.lifetimeMin = lifetimeMin;
-	//	data.lifetimeMax = lifetimeMax;
-	//	data.speedMin = speedMin;
-	//	data.speedMax = speedMax;
-	//	data.damping = damping;
-	//	data.color = kiko::Color{ red, green, blue, alpha };
+	void Actor::AddComponent(std::unique_ptr<Component> component)
+	{
+		component->m_owner = this;
+		components.push_back(std::move(component));
 
-	//	kiko::Transform transform{ {  }, 0, 1 };
-	//	auto emitter = std::make_unique<kiko::Emitter>(transform, data);
-	//	emitter->m_lifespan = 1.0f; //from framework
-	//	//m_scene->Add(std::move(emitter));
-	//}
 
-	//void Actor::() {
+	}
 
-	//	kiko::Transform transform{ { kiko::g_inputSystem.GetMousePosition() }, 0, 1 };
-	//	auto emitter = std::make_unique<kiko::Emitter>(transform, data);
-	//	emitter->m_lifespan = 1.0f; //from framework
-	//	m_scene->Add(std::move(emitter));
-	//}
+	void Actor::Read(const json_t& value)
+	{
+		Object::Read(value);
+
+		READ_DATA(value, tag)
+		READ_DATA(value, lifespan)
+		READ_DATA(value, persistent)
+		READ_DATA(value, prototype)
+		// Checks if the data exists
+		if(HAS_DATA(value, transform)) transform.Read(GET_DATA(value, transform));
+		// If it does, then this runs.
+		if (HAS_DATA(value, components) && GET_DATA(value, components).IsArray())
+		{
+			for (auto& componentValue : GET_DATA(value, components).GetArray())
+			{
+				std::string type;
+				READ_DATA(componentValue, type);
+
+				auto component = CREATE_CLASS_BASE(Component, type); //technically an object lol
+				component->Read(componentValue);
+
+				AddComponent(std::move(component));
+			}
+		}
+
+	}
+
+
 }

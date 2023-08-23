@@ -1,18 +1,22 @@
 #pragma once
 #include "Framework/Actor.h"
+#include "Framework/Components/CollisionComponent.h"
+#include "Framework/Components/RenderComponents.h"
 #include <Renderer/Model.h>
 
 class Enemy : public kiko::Actor
 {
 public:
-	Enemy(float speed, float turnRate, const kiko::Transform& transform, std::shared_ptr<kiko::Model> model) :
-		Actor{ transform, model },
+	Enemy(float speed, float turnRate, const kiko::Transform& transform) :
+		Actor{ transform},
 		m_speed{ speed },
 		m_turnRate{ turnRate }
 	{
 		m_fireRate = 2.0f;
 		m_fireTimer = m_fireRate;
 	}
+
+	bool Initialize() override;
 
 	void Update(float dt) override;
 	void OnCollision(Actor* actor) override;

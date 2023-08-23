@@ -1,0 +1,9 @@
+INFO: Class registered: TextRenderComponent
+INFO: Class registered: Sprite
+INFO: Class registered: ModelRenderComponent
+INFO: Class registered: EnginePhysicsComponent
+INFO: Class registered: CircleCollisionComponent
+INFO: Class registered: Actor
+INFO: Initializing Main...
+INFO: Event subscribed: AddPoints
+INFO: Event subscribed: PlayerDead

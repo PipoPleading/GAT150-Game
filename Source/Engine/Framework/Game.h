@@ -5,6 +5,7 @@ namespace kiko
 {
 	//could include scene here also
 	class Renderer;
+	class Scene;
 
 	class Game {
 	public:
@@ -24,7 +25,7 @@ namespace kiko
 		void SetLives(int lives)  { m_lives = lives; }
 
 	protected:
-		std::unique_ptr<class Scene> m_scene;
+		std::unique_ptr<Scene> m_scene;
 
 		int m_score = 0;
 		int m_lives = 0;

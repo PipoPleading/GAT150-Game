@@ -17,7 +17,7 @@ namespace kiko
 		bool GetKeyDown(uint32_t key) const { return m_keyboardState[key]; }
 		bool GetPreviousKeyDown(uint32_t key) const { return m_prevKeyboardState[key]; }
 
-		const Vector2& GetActorPosition() const { return m_actorPosition; }
+		const Vector2& GetComponentPosition() const { return m_actorPosition; }
 		const Vector2& GetPrevActorPosition() const { return m_prevActorPosition; }
 
 		const Vector2& GetMousePosition() const { return m_mousePosition; }

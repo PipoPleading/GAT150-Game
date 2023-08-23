@@ -1,23 +1,34 @@
 #pragma once
+//#include "Framework/Actor.h"
+//#include "Framework/Components/CollisionComponent.h"
+//#include "Framework/Components/RenderComponents.h"
+//#include "Framework/Emitter.h"
+//#include "Framework/Scene.h"
+//#include <Renderer/Model.h>
 #include "Framework/Actor.h"
-#include "Framework/Emitter.h"
-#include "Framework/Scene.h"
-#include <Renderer/Model.h>
 
-
-class Weapon : public kiko::Actor
+namespace kiko
 {
-public:
-	Weapon(float speed, const kiko::Transform& transform, std::shared_ptr<kiko::Model> model) :
-		Actor{ transform, model },
-		m_speed{ speed }
+	class Weapon : public Actor
 	{
-		m_lifespan = 2.0f; //how long the thing exists until it's destroyed 
-	}
+	public:
+		CLASS_DECLARATION(Weapon)
 
-	void Update(float dt) override;
-	void OnCollision(Actor* actor) override;
+		//Weapon(float speed, const kiko::Transform& transform) :
+		//	Actor{ transform},
+		//	m_speed{ speed }
+		//{
+		//	lifespan = 2.0f; //how long the thing exists until it's destroyed 
+		//}
 
-private:
-	float m_speed = 0;
-};
+		bool Initialize() override;
+		void Update(float dt) override;
+
+		void OnCollision(Actor* actor);
+		//void Read(const json_t& value);
+
+	private:
+		float speed = 0;
+	};
+
+}
