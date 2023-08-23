@@ -152,6 +152,8 @@ int main(int argc, char* argv[])
 
 		kiko::g_audioSystem.Update();
 		kiko::g_particleSystem.Update(kiko::g_time.GetDeltaTime());
+		kiko::PhysicsSystem::Instance().Update(kiko::g_time.GetDeltaTime());
+		
 		//In the Game main() call the Update() function of the Particle System to update the particles.
 
 		//update game

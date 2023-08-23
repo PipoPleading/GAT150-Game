@@ -27,7 +27,7 @@ namespace kiko
 		}
 
 		//check collisions
-		for (auto iter1 = m_actors.begin(); iter1 != m_actors.end(); iter1++) {
+		/*for (auto iter1 = m_actors.begin(); iter1 != m_actors.end(); iter1++) {
 			for (auto iter2 = std::next(iter1, 1); iter2 != m_actors.end(); iter2++) {
 				
 				CollisionComponent* collision1 = (*iter1)->GetComponent<CollisionComponent>();
@@ -42,7 +42,7 @@ namespace kiko
 				}
 			}
 		}
-	}
+	}*/
 	void kiko::Scene::Draw(Renderer& renderer)
 	{
 		for (auto& actor : m_actors)

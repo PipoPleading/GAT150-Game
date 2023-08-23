@@ -1,8 +1,6 @@
 #pragma once
 #include "Framework/Actor.h"
-#include "Framework/Components/CollisionComponent.h"
-#include "Framework/Components/RenderComponents.h"
-#include <Renderer/Model.h>
+#include "Framework/Components/PhysicComponent.h"
 
 class Enemy : public kiko::Actor
 {
@@ -21,10 +19,14 @@ public:
 	void Update(float dt) override;
 	void OnCollision(Actor* actor) override;
 
+	//need to set something to null here? ask jacob later when you don't have a migraine
+
 private:
 	float m_speed = 0;
 	float m_turnRate = 0;
 
 	float m_fireRate = 0;
 	float m_fireTimer = 0;
+
+	kiko::PhysicComponent* m_physics = nullptr;
 };

@@ -44,7 +44,9 @@ void Enemy::Update(float dt)
 
 		float turnAngle = kiko::vec2::SignedAngle(forward, direction.Normalized());
 		//turn towards player
-		transform.rotation += turnAngle * dt; 
+		//transform.rotation += turnAngle * dt; 
+
+		m_physics->ApplyTorque(turnAngle); //this is physicsComponent
 		float angle = kiko::vec2::Angle(forward, direction.Normalized());
 		//check if player is in front
 		if (std::fabs(turnAngle) < kiko::DegreesToRadians(30.0f))
@@ -54,7 +56,9 @@ void Enemy::Update(float dt)
 		}
 	}
 
-	transform.position += forward * m_speed * kiko::g_time.GetDeltaTime();
+	//transform.position += forward * m_speed * kiko::g_time.GetDeltaTime();
+	m_physics->ApplyForce(forward * m_speed);
+
 	transform.position.x = kiko::Wrap(transform.position.x, (float)kiko::g_renderer.GetWidth());
 	transform.position.y = kiko::Wrap(transform.position.y, (float)kiko::g_renderer.GetHeight());
 
