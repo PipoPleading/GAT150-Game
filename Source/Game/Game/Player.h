@@ -2,31 +2,39 @@
 #include "Framework/Actor.h"
 #include "Framework/Components/PhysicComponent.h"
 #include <Renderer/Model.h>
-
-class Player : public kiko::Actor
+namespace kiko
 {
-public:
-	Player(float speed, float turnRate, const kiko::Transform& transform) :
-		Actor{ transform },
-		m_speed{ speed },
-		bullet{ transform },
-		m_turnRate{ turnRate}
+
+	class Player : public Actor
 	{
-		m_miniTime = 10.0f;
-	}
+	public:
+			CLASS_DECLARATION(Player)
 
-	bool Initialize() override;
-	void Update(float dt) override;
-	void OnCollision(Actor* other) override;
+			/*Player(float speed, float turnRate, const kiko::Transform& transform) :
+			Actor{ transform },
+			speed{ speed },
+			bullet{ transform },
+			turnRate{ turnRate }
+		{
+			m_miniTime = 10.0f;
+		}*/
 
-private:
-	float m_speed = 0;
-	float m_turnRate = 0;
-	float m_invincibility = 0;
-	Actor bullet;
-	int m_health = 10;
-	float m_miniTime = 0;
-	float m_miniTimer = 0;
+		bool Initialize() override;
 
-	kiko::PhysicComponent* m_physicsComponent = nullptr;
-};
+		void OnDestroy() override;
+		void Update(float dt) override;
+		void OnCollisionEnter(Actor* other) override;
+
+	private:
+		float speed = 0;
+		float turnRate = 0;
+		float m_invincibility = 0;
+		Actor bullet;
+		int m_health = 10;
+		float m_miniTime = 0;
+		float m_miniTimer = 0;
+
+		kiko::PhysicComponent* m_physicsComponent = nullptr;
+	};
+
+}

@@ -31,7 +31,7 @@
     <ClCompile Include="Components\EnginePhysicsComponent.cpp">
       <Filter>Source\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Components\Sprite.cpp">
+    <ClCompile Include="Components\SpriteComponent.cpp">
       <Filter>Source\Components</Filter>
     </ClCompile>
     <ClCompile Include="Object.cpp">
@@ -50,6 +50,12 @@
       <Filter>Source\Components</Filter>
     </ClCompile>
     <ClCompile Include="Components\Box2DCollisionComponent.cpp">
+      <Filter>Source\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\SpriteAnimRenderComponent.cpp">
+      <Filter>Source\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\TilemapComponent.cpp">
       <Filter>Source\Components</Filter>
     </ClCompile>
   </ItemGroup>
@@ -105,7 +111,7 @@
     <ClInclude Include="Factory.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="Components\Sprite.h">
+    <ClInclude Include="Components\SpriteComponent.h">
       <Filter>Source\Components</Filter>
     </ClInclude>
     <ClInclude Include="Event\Event.h">
@@ -121,6 +127,12 @@
       <Filter>Source\Components</Filter>
     </ClInclude>
     <ClInclude Include="Components\Box2DCollisionComponent.h">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\TilemapComponent.h">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\SpriteAnimRenderComponent.h">
       <Filter>Source\Components</Filter>
     </ClInclude>
   </ItemGroup>

@@ -39,48 +39,44 @@
     },
     {
       "type": "Enemy",
-      "name": "Player",
-      "persistent": true,
-      "tag": "Player"
+      "name": "Enemy",
+      "prototype": true,
+      "tag": "Enemy",
       "transform": {
-        "position": [
-          400,
-          300
-        ],
+        "position": [ 400, 300 ],
         "scale": 1,
         "rotation": 0
       },
-      "speed": 30,
+      "speed": 2,
       "turnRate": 0.5,
       "components": [
         {
           "type": "SpriteRenderComponent",
-          "textureName": "ship.png"
+          "textureName": "enemy.png"
         },
         {
           "type": "Box2DPhysicsComponent",
-          "damping": 0.90,
+          "damping": 0.98,
           "angularDamping": 2,
           "gravityScale": 0
         },
         {
           "type": "Box2DCollisionComponent",
-          "textureName": [ 32, 32 ]
+          "size": [ 32, 32 ]
+        }
+      ]
     },
     {
       "type": "Player",
       "name": "Player",
-      "persistent": true,
-      "tag": "Player"
+      "prototype": true,
+      "tag": "Player",
       "transform": {
-        "position": [
-          400,
-          300
-        ],
+        "position": [ 400, 300 ],
         "scale": 1,
         "rotation": 0
       },
-      "speed": 30,
+      "speed": 8,
       "turnRate": 0.5,
       "components": [
         {
@@ -96,6 +92,37 @@
         {
           "type": "Box2DCollisionComponent",
           "textureName": [ 32, 32 ]
+        }
+      ]
+    },
+    {
+      "type": "Weapon",
+      "name": "Rocket",
+      "prototype": true,
+      "tag": "Weapon",
+      "transform": {
+        "position": [ 400, 300 ],
+        "scale": 1,
+        "rotation": 0
+      },
+      "speed": 10,
+      "turnRate": 0.5,
+      "components": [
+        {
+          "type": "SpriteRenderComponent",
+          "textureName": "ship.png"
+        },
+        {
+          "type": "Box2DPhysicsComponent",
+          "damping": 0.90,
+          "angularDamping": 2,
+          "gravityScale": 0
+        },
+        {
+          "type": "Box2DCollisionComponent",
+          "textureName": [ 32, 32 ],
+          "isTrigger": true,
+          "constrainAngle": true
         }
       ]
     }

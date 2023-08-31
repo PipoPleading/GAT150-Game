@@ -6,6 +6,11 @@ namespace kiko
 	{
 		b2Vec2 gravity{ 0, 10 };
 		m_world = std::make_unique<b2World>(gravity);
+
+		m_contactListener = std::make_unique<ContactListener>();
+		m_world->SetContactListener(m_contactListener.get()); // no move function used as that would make box2d the owner of it, where as it just needs a pointer
+
+
 		return true;
 	}
 	void PhysicsSystem::Update(float dt)
@@ -35,9 +40,20 @@ namespace kiko
 
 	void PhysicsSystem::SetCollisionBox(b2Body* body, const CollisionData& data, class Actor* actor)
 	{
-		b2PolygonShape shape;
 		Vector2 worldSize = ScreenToWorld(data.size * 0.5f);
-		shape.SetAsBox(worldSize.x, worldSize.y);
+		Vector2 worldOffset = ScreenToWorld(data.size * data.offset);
+
+		b2Vec2 vs[4] =
+		{
+			{ -worldSize.x - worldOffset.x, -worldSize.y - worldOffset.y },
+			{  worldSize.x - worldOffset.x, -worldSize.y - worldOffset.y },
+			{  worldSize.x - worldOffset.x,  worldSize.y - worldOffset.y },
+			{ -worldSize.x - worldOffset.x,  worldSize.y + -worldOffset.y },
+		};
+
+		b2PolygonShape shape;
+		shape.Set(vs, 4);
+		//shape.SetAsBox(worldSize.x, worldSize.y);
 
 		b2FixtureDef fixtureDef;
 		fixtureDef.density = data.density;

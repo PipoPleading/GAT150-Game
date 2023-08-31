@@ -24,9 +24,9 @@ namespace kiko
 		void Read(const json_t& value);
 
 		template<typename T>
-		T* GetComponent();
+		T* GetActor();
 		template<typename T = Actor>
-		T* GetComponentByName(const std::string& name);
+		T* GetActorByName(const std::string& name);
 
 		friend class Actor;
 
@@ -36,7 +36,7 @@ namespace kiko
 	};
 
 	template<typename T>
-	inline T* Scene::GetComponent() //inline does a code substitution, often useful in headers in substitution of tags
+	inline T* Scene::GetActor() //inline does a code substitution, often useful in headers in substitution of tags
 	{
 		for (auto& actor : m_actors) 
 		{
@@ -48,7 +48,7 @@ namespace kiko
 	}
 
 	template<typename T>
-	inline T* Scene::GetComponentByName(const std::string& name)
+	inline T* Scene::GetActorByName(const std::string& name)
 	{
 		for (auto& actor : m_actors)
 		{

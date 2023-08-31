@@ -7,15 +7,15 @@ class PowerUp : public kiko::Actor
 public:
 	PowerUp(float speed, const kiko::Transform& transform) :
 		Actor{ transform},
-		m_speed{ speed }
+		speed{ speed }
 	{}
 
 	void Update(float dt) override;
-	void OnCollision(Actor* actor) override;
+	void OnCollisionEnter(Actor* actor) override;
 
 private:
-	float m_speed = 0;
+	float speed = 0;
 
-	float m_fireRate = 0;
+	float fireRate = 0;
 	float m_fireTimer = 0;
 };

@@ -45,10 +45,18 @@
     <ClInclude Include="PowerUp.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="Notes.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\..\Build\Assets\Scene.json">
       <Filter>Resources</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Build\Assets\Scenes\SpaceScene.json">
+      <Filter>Resources</Filter>
+    </None>
   </ItemGroup>
 </Project>

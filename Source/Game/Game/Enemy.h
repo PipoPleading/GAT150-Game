@@ -2,31 +2,26 @@
 #include "Framework/Actor.h"
 #include "Framework/Components/PhysicComponent.h"
 
-class Enemy : public kiko::Actor
-{
-public:
-	Enemy(float speed, float turnRate, const kiko::Transform& transform) :
-		Actor{ transform},
-		m_speed{ speed },
-		m_turnRate{ turnRate }
+namespace kiko {
+	class Enemy : public Actor
 	{
-		m_fireRate = 2.0f;
-		m_fireTimer = m_fireRate;
-	}
+	public:
 
-	bool Initialize() override;
+		CLASS_DECLARATION(Enemy)
 
-	void Update(float dt) override;
-	void OnCollision(Actor* actor) override;
+		bool Initialize() override;
+		void OnDestroy() override;
+		void Update(float dt) override;
 
-	//need to set something to null here? ask jacob later when you don't have a migraine
+		void OnCollisionEnter(Actor* actor) override;
 
-private:
-	float m_speed = 0;
-	float m_turnRate = 0;
+	private:
+		float speed = 0;
+		float turnRate = 0;
 
-	float m_fireRate = 0;
-	float m_fireTimer = 0;
+		float fireRate = 0;
+		float m_fireTimer = 0;
 
-	kiko::PhysicComponent* m_physics = nullptr;
-};
+		kiko::PhysicComponent* m_physics = nullptr;
+	};
+}

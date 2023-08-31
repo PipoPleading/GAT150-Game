@@ -5,7 +5,7 @@ namespace kiko
 {
 	CLASS_DEFINITION(Box2DPhysicsComponent)
 
-		bool Box2DPhysicsComponent::Initialize()
+	bool Box2DPhysicsComponent::Initialize()
 	{
 		m_body = PhysicsSystem::Instance().CreateBody(m_owner->transform.position, m_owner->transform.rotation, data);
 		m_body->SetGravityScale(data.gravityScale);
@@ -40,6 +40,16 @@ namespace kiko
 	void Box2DPhysicsComponent::ApplyTorque(float torque)
 	{
 		m_body->ApplyTorque(torque, true);
+	}
+
+	void Box2DPhysicsComponent::SetVelocity(const vec2& velocity)
+	{
+		m_body->SetLinearVelocity(VEC2_TO_B2VEC2(velocity));
+	}
+
+	void Box2DPhysicsComponent::SetGravityScale(float scale)
+	{
+		m_body->SetGravityScale(scale);
 	}
 
 	void Box2DPhysicsComponent::Read(const json_t& value)

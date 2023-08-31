@@ -1,6 +1,7 @@
 #pragma once
 #include "Framework/Singleton.h"
 #include "Core/Vector2.h"
+#include "ContactListener.h"
 #include "box2d/include/box2d/box2d.h"
 #include <memory>
 
@@ -25,6 +26,7 @@ namespace kiko
 		struct CollisionData
 		{
 			vec2 size;
+			vec2 offset;
 			float density = 1;
 			float friction = 1;
 			float restitution = 0.3f;
@@ -50,8 +52,9 @@ namespace kiko
 		PhysicsSystem() = default;
 
 	private:
-		float m_pixelsPerUnit = 48.0f;
+		float m_pixelsPerUnit = 48.0f;//48 pixels per unit 
 
 		std::unique_ptr<b2World> m_world;
+		std::unique_ptr<ContactListener> m_contactListener;
 	};
 }

@@ -11,7 +11,8 @@ namespace kiko
 		virtual void ApplyForce(const vec2& force) = 0;
 		virtual void ApplyTorque(float torque) = 0;
 
-
+		virtual void SetVelocity(const vec2& velocity) {}
+		virtual void SetGravityScale(float scale) {} //need more??
 
 	public:
 		vec2 m_velocity;

@@ -1,6 +1,6 @@
 #include "PowerUp.h"
 #include "Renderer/Renderer.h"
-#include "Player.h"
+#include "Game/Player.h"
 #include "PeggleThree.h"
 #include "Framework/Scene.h"
 
@@ -9,7 +9,7 @@ void PowerUp::Update(float dt)
 	Actor::Update(dt);
 
 	kiko::vec2 forward = kiko::vec2{ 0, -1 }.Rotate(transform.rotation);
-	Player* player = m_scene->GetComponent<Player>(); //-> = . in pointer notation
+	kiko::Player* player = m_scene->GetActor<kiko::Player>(); //-> = . in pointer notation
 	if (player)
 	{
 		kiko::Vector2 direction = player->transform.position - transform.position;
@@ -27,13 +27,13 @@ void PowerUp::Update(float dt)
 		}
 	}
 
-	transform.position += forward * m_speed * kiko::g_time.GetDeltaTime();
+	transform.position += forward * speed * kiko::g_time.GetDeltaTime();
 	transform.position.x = kiko::Wrap(transform.position.x, (float)kiko::g_renderer.GetWidth());
 	transform.position.y = kiko::Wrap(transform.position.y, (float)kiko::g_renderer.GetHeight());
 
 }
 
-void PowerUp::OnCollision(Actor* other)
+void PowerUp::OnCollisionEnter(Actor* other)
 {
 	//Player p = dynamic_cast<Player*>(other);
 

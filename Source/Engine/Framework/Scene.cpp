@@ -11,7 +11,7 @@ namespace kiko
 	}
 
 
-	void kiko::Scene::Update(float dt)
+	void Scene::Update(float dt)
 	{
 		//for (auto& actor : m_actors)
 		//{actor->Update(dt);}
@@ -29,26 +29,28 @@ namespace kiko
 		//check collisions
 		/*for (auto iter1 = m_actors.begin(); iter1 != m_actors.end(); iter1++) {
 			for (auto iter2 = std::next(iter1, 1); iter2 != m_actors.end(); iter2++) {
-				
-				CollisionComponent* collision1 = (*iter1)->GetComponent<CollisionComponent>();
-				CollisionComponent* collision2 = (*iter2)->GetComponent<CollisionComponent>();
+
+				CollisionComponent* collision1 = (*iter1)->GetActor<CollisionComponent>();
+				CollisionComponent* collision2 = (*iter2)->GetActor<CollisionComponent>();
 
 				if (!collision1 || !collision2) continue;
 
-				if (collision1->CheckCollision(collision2)) 
+				if (collision1->CheckCollision(collision2))
 				{
-					(*iter1)->OnCollision(iter2->get());
-					(*iter2)->OnCollision(iter1->get());
+					(*iter1)->OnCollisionEnter(iter2->get());
+					(*iter2)->OnCollisionEnter(iter1->get());
 				}
 			}
 		}
-	}*/
+			}*/
+	}
+
 	void kiko::Scene::Draw(Renderer& renderer)
 	{
 		for (auto& actor : m_actors)
 		{
 			if (actor->active) actor->Draw(renderer);
-			
+
 		}
 	}
 
@@ -61,7 +63,7 @@ namespace kiko
 
 	void kiko::Scene::RemoveAll(bool force)
 	{
-		auto iter = m_actors.begin(); 
+		auto iter = m_actors.begin();
 		while (iter != m_actors.end())
 		{
 			(force || !(*iter)->persistent) ? iter = m_actors.erase(iter) : iter++;

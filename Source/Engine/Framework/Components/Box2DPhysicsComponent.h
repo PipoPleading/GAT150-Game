@@ -18,6 +18,9 @@ namespace kiko
 		void Update(float dt) override;
 		virtual void ApplyForce(const vec2& force) override;
 		virtual void ApplyTorque(float torque) override;
+		virtual void SetVelocity(const vec2& velocity) override;
+		virtual void SetGravityScale(float scale) override;//missing what i need here 
+
 
 		friend class Box2DCollisionComponent;
 

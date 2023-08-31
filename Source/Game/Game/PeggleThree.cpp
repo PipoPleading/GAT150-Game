@@ -9,7 +9,7 @@
 //#include "Framework/Scene.h"
 //#include "Framework/Resource/ResourceManager.h"
 //#include "Framework/Emitter.h"
-//#include "Framework/Components/Sprite.h"
+//#include "Framework/Components/SpriteComponent.h"
 //#include "Framework/Components/EnginePhysicsComponent.h"
 
 #include "Audio/AudioSystem.h"
@@ -58,7 +58,7 @@ bool SpaceGame::Initialize()
     
     //load scene
     m_scene = std::make_unique<kiko::Scene>();
-    m_scene->Load("Scene.json");
+    m_scene->Load("Scenes\SpaceScene.json");
     m_scene->Initialize();
 
     //add events
@@ -82,9 +82,9 @@ void SpaceGame::Update(float dt)
     case eState::Title:
         if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_SPACE)) {
             m_state = eState::StartGame;
-            m_scene->GetComponentByName("Title")->active;
+            m_scene->GetActorByName("Title")->active;
 
-            m_scene->GetComponentByName("Background")->active; //Jayden - not sure if you need "<>"
+            m_scene->GetActorByName("Background")->active; //Jayden - not sure if you need "<>"
         }
 
         break;
@@ -107,25 +107,30 @@ void SpaceGame::Update(float dt)
         m_scene->RemoveAll();
     {
         //player creation
-        auto player = std::make_unique<Player>(70.0f, 0, kiko::Transform{ {400, 300 }, 0, 6 });
-        player->tag = "player"; 
-        player->m_game = this;
-        
-        //create components
-        auto renderComponent = CREATE_CLASS(Sprite)//std::make_unique<kiko::Sprite>();
-        renderComponent->m_texture = GET_RESOURCE(kiko::Texture, "ship.png", kiko::g_renderer);
-        player->AddComponent(std::move(renderComponent));
+        //auto player = std::make_unique<Player>(70.0f, 0, kiko::Transform{ {400, 300 }, 0, 6 });
+        //player->tag = "player"; 
+        //player->m_game = this;
+        //
+        ////create components
+        //auto renderComponent = CREATE_CLASS(SpriteComponent)//std::make_unique<kiko::SpriteComponent>();
+        //renderComponent->m_texture = GET_RESOURCE(kiko::Texture, "ship.png", kiko::g_renderer);
+        //player->AddComponent(std::move(renderComponent));
 
-        auto physicsComponent = CREATE_CLASS(EnginePhysicsComponent)
-        physicsComponent->m_damping = 0.9f;
-        player->AddComponent(std::move(physicsComponent));
+        //auto physicsComponent = CREATE_CLASS(EnginePhysicsComponent)
+        //physicsComponent->m_damping = 0.9f;
+        //player->AddComponent(std::move(physicsComponent));
 
-        auto collisionComponent = CREATE_CLASS(CircleCollisionComponent)
-        collisionComponent->m_radius = 30.0f;
-        player->AddComponent(std::move(collisionComponent));
+        //auto collisionComponent = CREATE_CLASS(CircleCollisionComponent)
+        //collisionComponent->m_radius = 30.0f;
+        //player->AddComponent(std::move(collisionComponent));
 
+        //player->Initialize();
+        //m_scene->Add(std::move(player));
+        auto player = INSTANTIATE(Player, "Player");
+        player->transform = kiko::Transform{ { 400, 300 }, 0, 1 };
         player->Initialize();
         m_scene->Add(std::move(player));
+           
 
 
 
@@ -138,32 +143,37 @@ void SpaceGame::Update(float dt)
         {
             m_random = kiko::randomf(256.0f);
 
-            if (m_random <= 128) {
-                //enemy
-            std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(kiko::randomf(150.0f, 275.0f), kiko::Pi, kiko::Transform{{kiko::random(800), kiko::random(600)}
-            , kiko::randomf(kiko::TwoPi), 3});
-            enemy->tag = "enemy";
-            enemy->m_game = this;
-            //create components
-            //m_scene->Add(std::move(enemy));
-
-            auto collisionComponent = std::make_unique<kiko::CircleCollisionComponent>();
-            collisionComponent->m_radius = 30.0f;
-            enemy->AddComponent(std::move(collisionComponent));
-
+            auto enemy = INSTANTIATE(Enemy, "Enemy");
+            enemy->transform = kiko::Transform{ { kiko::random(800), kiko::random(600) }, kiko::randomf(kiko::TwoPi), 1 };
             enemy->Initialize();
             m_scene->Add(std::move(enemy));
 
-                //powerup
-            /*std::unique_ptr<PowerUp> powerup = std::make_unique<PowerUp>(kiko::randomf(300.0f, 500.0f), kiko::Transform{{kiko::random(800), kiko::random(600)}
-            , kiko::randomf(kiko::TwoPi), 3}, kiko::g_manager.Get("Star.txt"));
-            powerup->m_tag = "star";
-            powerup->m_game = this;
-            m_scene->Add(std::move(powerup));*/
+            //if (m_random <= 128) {
+            //    //enemy
+            //std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(kiko::randomf(150.0f, 275.0f), kiko::Pi, kiko::Transform{{kiko::random(800), kiko::random(600)}
+            //, kiko::randomf(kiko::TwoPi), 3});
+            //enemy->tag = "enemy";
+            //enemy->m_game = this;
+            ////create components
+            ////m_scene->Add(std::move(enemy));
+
+            //auto collisionComponent = std::make_unique<kiko::CircleCollisionComponent>();
+            //collisionComponent->m_radius = 30.0f;
+            //enemy->AddComponent(std::move(collisionComponent));
+
+            //enemy->Initialize();
+            //m_scene->Add(std::move(enemy));
+
+            //    //powerup
+            ///*std::unique_ptr<PowerUp> powerup = std::make_unique<PowerUp>(kiko::randomf(300.0f, 500.0f), kiko::Transform{{kiko::random(800), kiko::random(600)}
+            //, kiko::randomf(kiko::TwoPi), 3}, kiko::g_manager.Get("Star.txt"));
+            //powerup->m_tag = "star";
+            //powerup->m_game = this;
+            //m_scene->Add(std::move(powerup));*/
 
 
 
-            }
+            //}
 
             //m_spawnTimer = 0.0f;
             //std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(kiko::randomf(150.0f, 275.0f), kiko::Pi, kiko::Transform{{kiko::random(800), kiko::random(600)}

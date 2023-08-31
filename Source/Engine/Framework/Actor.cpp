@@ -81,10 +81,10 @@ namespace kiko
 	{
 		Object::Read(value);
 
-		READ_DATA(value, tag)
-		READ_DATA(value, lifespan)
-		READ_DATA(value, persistent)
-		READ_DATA(value, prototype)
+		READ_DATA(value, tag);
+		READ_DATA(value, lifespan);
+		READ_DATA(value, persistent);
+		READ_DATA(value, prototype);
 		// Checks if the data exists
 		if(HAS_DATA(value, transform)) transform.Read(GET_DATA(value, transform));
 		// If it does, then this runs.

@@ -34,6 +34,8 @@ namespace kiko
 
 		void DrawTexture(class Texture* texture, float x, float y, float angle = 0.0f);
 		void DrawTexture(class Texture* texture, const kiko::Transform& transform);
+		void DrawTexture(class Texture* texture, const Rect& source, const kiko::Transform& transform);
+		void DrawTexture(class Texture* texture, const Rect& source, const kiko::Transform& transform, const vec2& origin, bool flipH);
 
 		int GetWidth() { return m_width; }
 		int GetHeight() { return m_height; }

@@ -9,7 +9,7 @@ namespace kiko
 		//<add class declaration macro>
 		CLASS_DECLARATION(TextRenderComponent)
 
-		TextRenderComponent() = default;
+			TextRenderComponent() = default;
 		TextRenderComponent(const TextRenderComponent& other);
 		bool Initialize() override;
 		void Update(float dt) override;
@@ -19,6 +19,8 @@ namespace kiko
 		std::string text;
 		std::string fontName;
 		int fontSize = 0;
+		Color color {1,1,1,1};
+
 	private:
 		bool m_changed = true;
 		std::unique_ptr<Text> m_text; //not sure if this is right
