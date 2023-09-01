@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
 
 	//Initializes engine
 	kiko::g_renderer.Initialize();
-	kiko::g_renderer.CreateWindow("CSC196", 1200, 900);
+	kiko::g_renderer.CreateWindow("CSC196", 800, 600);
 
 	kiko::g_inputSystem.Initialize();
 	kiko::g_audioSystem.Initialize();

@@ -15,8 +15,7 @@
       "components": [
         {
           "type": "SpriteComponent",
-          "textureName": "textures/background.png",
-          "source": [ 40, 40, 100, 100 ]
+          "textureName": "textures/background.png"
         }
       ]
     },
@@ -103,7 +102,7 @@
           "sequences": [
             {
               "name": "idle",
-              "fps": 12,
+              "fps": 6,
               "numColumns": 1,
               "numRows": 6,
               "startFrame": 1,
@@ -112,12 +111,21 @@
             },
             {
               "name": "run",
-              "fps": 12,
+              "fps": 6,
               "numColumns": 1,
               "numRows": 6,
               "startFrame": 1,
               "endFrame": 5,
               "textureName": "Textures/B_witch_run.png"
+            },
+            {
+              "name": "jump",
+              "fps": 6,
+              "numColumns": 1,
+              "numRows": 6,
+              "startFrame": 1,
+              "endFrame": 5,
+              "textureName": "Textures/B_witch_jump.png"
             }
           ]
         },
@@ -129,7 +137,7 @@
         },
         {
           "type": "Box2DCollisionComponent",
-          "restitution": 1
+          "restitution": 0.1
         }
       ]
     },
@@ -138,10 +146,11 @@
       "name": "Enemy",
       "tag": "Enemy",
       "persistent": true,
-      "speed": 10,
+      "speed": 15,
+      "maxSpeed": 300,
       "jump": 8,
       "transform": {
-        "position": [ 540, 320 ],
+        "position": [ 140, 140 ],
         "scale": 1,
         "rotation": 0
       },
@@ -152,7 +161,7 @@
           "sequences": [
             {
               "name": "idle",
-              "fps": 12,
+              "fps": 6,
               "numColumns": 4,
               "numRows": 1,
               "startFrame": 1,
@@ -164,8 +173,8 @@
         {
           "type": "Box2DPhysicsComponent",
           "constrainAngle": true,
-          "gravityScale": 0,
-          "damping": 0
+          "gravityScale": 0.05,
+          "damping": 0.01
         },
         {
           "type": "Box2DCollisionComponent",
@@ -178,7 +187,7 @@
       "name": "Title",
       "persistent": true,
       "transform": {
-        "position": [ 400, 300 ],
+        "position": [ 400, 100 ],
         "scale": 2,
         "rotation": 0
       },
@@ -186,9 +195,9 @@
         {
           "type": "TextRenderComponent",
           "fontName": "KarmaFuture.ttf",
-          "fontSize": 48,
-          "text": "Gaming",
-          "color": [ 1, 0, 1, 1 ]
+          "fontSize": 28,
+          "text": "Wow, what a game!",
+          "color": [ 1, 1, 0, 1 ]
         }
       ]
     }

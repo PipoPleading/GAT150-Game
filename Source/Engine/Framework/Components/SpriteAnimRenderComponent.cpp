@@ -56,6 +56,7 @@ namespace kiko
 			if (update) UpdateSource();
 
 		}
+
 	}
 
 	void SpriteAnimRenderComponent::UpdateSource()

@@ -20,6 +20,8 @@ namespace kiko
 		float speed = 0;
 		float jump = 0;
 		int groundCount = 0;
+		float maxSpeed = 0;
+
 		float turnRate = 0;
 		float m_invincibility = 0;
 		Actor bullet;

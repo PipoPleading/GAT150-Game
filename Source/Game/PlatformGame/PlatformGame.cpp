@@ -26,6 +26,8 @@ bool PlatformGame::Initialize()
 
     //load scene
     m_scene = std::make_unique<kiko::Scene>();
+    kiko::g_audioSystem.AddAudio("music", "spaceSong.wav");
+    kiko::g_audioSystem.PlayOneShot("music", true);
     m_scene->Load("Scenes/PlatformScene.json");
     m_scene->Load("Scenes/tilemap.json");
     m_scene->Initialize();
@@ -50,12 +52,7 @@ void PlatformGame::Update(float dt)
     {
     case eState::Title:
 
-    {
-    auto actor = INSTANTIATE(Actor, "Crate");
-    actor->transform.position = { kiko::random(kiko::g_renderer.GetWidth()), 100 };
-    actor->Initialize();
-    m_scene->Add(std::move(actor)); 
-    }
+    
         break;
     case eState::StartGame:
         m_score = 0;
@@ -75,6 +72,12 @@ void PlatformGame::Update(float dt)
     case eState::StartLevel:
         m_scene->RemoveAll();
         {
+            {
+                auto actor = INSTANTIATE(Actor, "Crate");
+                actor->transform.position = { kiko::random(kiko::g_renderer.GetWidth()), 100 };
+                actor->Initialize();
+                m_scene->Add(std::move(actor));
+            }
             //player creation
             //auto player = std::make_unique<Player>(70.0f, 0, kiko::Transform{ {400, 300 }, 0, 6 });
             //player->tag = "player"; 

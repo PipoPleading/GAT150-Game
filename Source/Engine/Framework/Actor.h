@@ -19,7 +19,8 @@ namespace kiko
 			transform{ transform }
 		{}
 		Actor(const Actor& other);
-		virtual ~Actor() {
+		virtual ~Actor() 
+		{
 			OnDestroy();
 		}
 

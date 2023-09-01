@@ -20,7 +20,7 @@ namespace kiko
 		auto iter = m_actors.begin(); //auto consolodates c++ badness into not being the least readable code
 		while (iter != m_actors.end())
 		{
-			if (!(*iter)->active) (*iter)->Update(dt);
+			if ((*iter)->active) (*iter)->Update(dt);
 
 
 			((*iter)->m_destroyed) ? iter = m_actors.erase(iter) : iter++;

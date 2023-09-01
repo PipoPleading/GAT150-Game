@@ -28,19 +28,36 @@ namespace kiko
 		vec2 velocity = m_physicsComponent->m_velocity;
 		bool onGround = (groundCount > 0);
 
-		float dir = 0;
-		if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_A)) dir = -1;
-		if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_D)) dir = 1;
+		float horiz = 0;
+		float ver = 0;
 
-		if (dir)
+		//left and right
+		if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_A) && (!kiko::g_inputSystem.GetPreviousKeyDown(SDL_SCANCODE_A))) horiz = -1;
+
+		if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_D) && (!kiko::g_inputSystem.GetPreviousKeyDown(SDL_SCANCODE_D))) horiz = 1;
+
+		//up
+		if (kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_W) && (!kiko::g_inputSystem.GetPreviousKeyDown(SDL_SCANCODE_W))) ver = -1;
+
+		//horizontal velocity
+		if (horiz)
 		{	
-			velocity.x += speed * dir * ((onGround) ? 1 : 0.25f) * dt;
+			velocity.x += speed * horiz * ((onGround) ? 1 : 0.25f) * dt;
 			velocity.x = Clamp(velocity.x, -maxSpeed, maxSpeed);
 			m_physicsComponent->SetVelocity(velocity);
 		}
 
+		//
+		if (ver)
+		{
+			velocity.y += speed * ver * ((onGround) ? 1 : 1.25f) * dt;
+			velocity.y = Clamp(velocity.y, -maxSpeed, maxSpeed);
+			m_physicsComponent->SetVelocity(velocity);
+		}
+
+
 		//Jump
-		if (onGround &&(
+		if (/*onGround &&*/(
 			kiko::g_inputSystem.GetKeyDown(SDL_SCANCODE_SPACE) &&
 			(!kiko::g_inputSystem.GetPreviousKeyDown(SDL_SCANCODE_SPACE))))
 		{
@@ -48,14 +65,14 @@ namespace kiko
 			m_physicsComponent->SetVelocity( velocity + (up * jump));
 		}
 
-		//m_physicsComponent->SetGravityScale((velocity.y > 0) ? 5.0f : 3.0f); need to find the code for SetGravityScale
+		m_physicsComponent->SetGravityScale((velocity.y > 0) ? 5.0f : 3.0f);//need to find the code for SetGravityScale
 
 
 		//animation
 		if (std::fabs(velocity.x) > 0.2f)
 		{
-			if(dir != 0) m_spriteAnimComponent->flipH = (dir < 0);
-			m_spriteAnimComponent->SetSequence("run");
+			if(horiz != 0) m_spriteAnimComponent->flipH = (horiz < 0);
+			m_spriteAnimComponent->SetSequence("jump");
 		}
 		else
 		{
@@ -65,11 +82,11 @@ namespace kiko
 
 	void Player::OnCollisionEnter(Actor* other)
 	{
-		if (other->tag == "Enemy")
-		{
-			m_destroyed = true;
-			//EVENT_DISPATCH("OnPlayerDead", 0); missing this
-		}
+		//if (other->tag == "Enemy")
+		//{
+		//	m_destroyed = true;
+		//	//EVENT_DISPATCH("OnPlayerDead", 0); missing this
+		//}
 
 		if (other->tag == "Ground") groundCount++;
 	}
