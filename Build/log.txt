@@ -11,8 +11,8 @@ INFO: Class registered: Box2DPhysicsComponent
 INFO: Class registered: Box2DCollisionComponent
 INFO: Class registered: Actor
 INFO: Initializing Main...
-WARNING: Could not create resource: 
-WARNING: Could not create resource: 
 INFO: Class prototype registered: Crate
 INFO: Class prototype registered: tile01
 INFO: Class prototype registered: tile02
+INFO: Event subscribed: AddPoints
+INFO: Event subscribed: PlayerDead

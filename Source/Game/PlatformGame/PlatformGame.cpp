@@ -39,6 +39,13 @@ bool PlatformGame::Initialize()
     //kiko::EventManager::Instance().Subscribe("AddPoints", this, std::bind(&PlatformGame::AddPoints, this, std::placeholders::_1));
     //kiko::EventManager::Instance().Subscribe("PlayerDead", this, std::bind(&PlatformGame::OnPlayerDead, this, std::placeholders::_1));
 
+
+    
+        auto actor = INSTANTIATE(Actor, "Crate");
+        actor->transform.position = { 572, 0 };
+        actor->Initialize();
+        m_scene->Add(std::move(actor));
+    
     return true;
 }
 
@@ -59,6 +66,7 @@ void PlatformGame::Update(float dt)
         m_lives = 3;
         m_state = eState::MusicStart;
 
+
         break;
     case eState::MusicStart:
         if (m_music = true) {
@@ -72,12 +80,7 @@ void PlatformGame::Update(float dt)
     case eState::StartLevel:
         m_scene->RemoveAll();
         {
-            {
-                auto actor = INSTANTIATE(Actor, "Crate");
-                actor->transform.position = { kiko::random(kiko::g_renderer.GetWidth()), 100 };
-                actor->Initialize();
-                m_scene->Add(std::move(actor));
-            }
+            
             //player creation
             //auto player = std::make_unique<Player>(70.0f, 0, kiko::Transform{ {400, 300 }, 0, 6 });
             //player->tag = "player"; 
@@ -256,6 +259,7 @@ void PlatformGame::AddPoints(const kiko::Event& event)
 
 void PlatformGame::OnPlayerDead(const kiko::Event& event)
 {
+    
     m_lives--;
     m_state = eState::PlayerDeadStart;
 }

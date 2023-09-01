@@ -15,7 +15,9 @@ namespace kiko
 
 		m_physicsComponent = GetActor<kiko::PhysicComponent>();
 		m_spriteAnimComponent = GetActor<kiko::SpriteAnimRenderComponent>();
-		
+		kiko::g_audioSystem.AddAudio("hooray", "fnaf-yay-children.mp3");
+
+
 		return true;
 	}
 
@@ -82,11 +84,12 @@ namespace kiko
 
 	void Player::OnCollisionEnter(Actor* other)
 	{
-		//if (other->tag == "Enemy")
-		//{
-		//	m_destroyed = true;
-		//	//EVENT_DISPATCH("OnPlayerDead", 0); missing this
-		//}
+		if (other->tag == "Enemy")
+		{
+			m_destroyed = true;
+			kiko::g_audioSystem.PlayOneShot("hooray", false);
+
+		}
 
 		if (other->tag == "Ground") groundCount++;
 	}

@@ -21,36 +21,6 @@
     },
     {
       "type": "Actor",
-      "name": "Coin",
-      "persistent": true,
-      "transform": {
-        "position": [
-          400,
-          300
-        ],
-        "scale": 1,
-        "rotation": 0
-      },
-      "components": [
-        {
-          "type": "SpriteAnimRenderComponent",
-          "defaultSequence": "idle",
-          "sequences": [
-            {
-              "name": "idle",
-              "fps": 12,
-              "numColumns": 8,
-              "numRows": 1,
-              "startFrame": 1,
-              "endFrame": 8,
-              "textureName": "Textures/coin.png"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "Actor",
       "name": "Crate",
       "tag": "Ground",
       "persistent": true,
@@ -87,9 +57,12 @@
       "persistent": true,
       "speed": 20,
       "maxSpeed": 8,
-      "jump": 15,
+      "jump": 12,
       "transform": {
-        "position": [ 440, 320 ],
+        "position": [
+          96,
+          64
+        ],
         "scale": 2,
         "rotation": 0
       },
@@ -147,10 +120,10 @@
       "tag": "Enemy",
       "persistent": true,
       "speed": 15,
-      "maxSpeed": 300,
+      "maxSpeed": 30,
       "jump": 8,
       "transform": {
-        "position": [ 140, 140 ],
+        "position": [ 800, 96 ],
         "scale": 1,
         "rotation": 0
       },
